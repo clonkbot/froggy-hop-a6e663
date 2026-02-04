@@ -1,0 +1,396 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Patrick+Hand&display=swap');
+
+:root {
+  --pond-deep: #0d1f2d;
+  --pond-mid: #1a3a3a;
+  --lily-green: #4a7c59;
+  --frog-green: #7cb518;
+  --frog-dark: #5a8a12;
+  --sunset-orange: #f77f00;
+  --cream: #f5f0e1;
+  --cream-dark: #e8dfc8;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Patrick Hand', cursive;
+  overflow: hidden;
+  background: var(--pond-deep);
+}
+
+.game-container {
+  width: 100vw;
+  height: 100dvh;
+  position: relative;
+}
+
+.game-ui {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.game-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px;
+  pointer-events: auto;
+}
+
+@media (min-width: 768px) {
+  .game-hud {
+    padding: 24px;
+  }
+}
+
+.score-card {
+  background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%);
+  border-radius: 16px;
+  padding: 12px 20px;
+  box-shadow:
+    0 4px 0 var(--lily-green),
+    0 8px 20px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.5);
+  border: 3px solid var(--lily-green);
+  transform: rotate(-2deg);
+  animation: cardFloat 3s ease-in-out infinite;
+}
+
+@keyframes cardFloat {
+  0%, 100% { transform: rotate(-2deg) translateY(0); }
+  50% { transform: rotate(-2deg) translateY(-4px); }
+}
+
+.score-label {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--lily-green);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@media (min-width: 768px) {
+  .score-label {
+    font-size: 12px;
+  }
+}
+
+.score-value {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--pond-mid);
+  line-height: 1;
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5);
+}
+
+@media (min-width: 768px) {
+  .score-value {
+    font-size: 36px;
+  }
+}
+
+.lives-container {
+  display: flex;
+  gap: 6px;
+  background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%);
+  border-radius: 16px;
+  padding: 10px 16px;
+  box-shadow:
+    0 4px 0 var(--sunset-orange),
+    0 8px 20px rgba(0, 0, 0, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.5);
+  border: 3px solid var(--sunset-orange);
+  transform: rotate(2deg);
+  animation: cardFloat2 3s ease-in-out infinite 0.5s;
+}
+
+@media (min-width: 768px) {
+  .lives-container {
+    gap: 8px;
+    padding: 12px 20px;
+  }
+}
+
+@keyframes cardFloat2 {
+  0%, 100% { transform: rotate(2deg) translateY(0); }
+  50% { transform: rotate(2deg) translateY(-4px); }
+}
+
+.life-icon {
+  font-size: 20px;
+  filter: drop-shadow(1px 1px 0 var(--frog-dark));
+  transition: all 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .life-icon {
+    font-size: 24px;
+  }
+}
+
+.life-icon.lost {
+  opacity: 0.3;
+  filter: grayscale(1);
+  transform: scale(0.8);
+}
+
+.start-screen, .game-over-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(13, 31, 45, 0.95) 100%);
+  pointer-events: auto;
+  padding: 20px;
+}
+
+.title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(36px, 10vw, 72px);
+  font-weight: 700;
+  color: var(--frog-green);
+  text-shadow:
+    4px 4px 0 var(--frog-dark),
+    8px 8px 0 rgba(0, 0, 0, 0.3);
+  margin-bottom: 8px;
+  animation: titleBounce 2s ease-in-out infinite;
+  text-align: center;
+  line-height: 1.1;
+}
+
+@media (min-width: 768px) {
+  .title {
+    margin-bottom: 10px;
+  }
+}
+
+@keyframes titleBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.02); }
+}
+
+.subtitle {
+  font-family: 'Patrick Hand', cursive;
+  font-size: clamp(18px, 4vw, 28px);
+  color: var(--cream);
+  margin-bottom: 30px;
+  opacity: 0.9;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .subtitle {
+    margin-bottom: 40px;
+  }
+}
+
+.start-button, .restart-button {
+  font-family: 'Fredoka', sans-serif;
+  font-size: clamp(18px, 4vw, 24px);
+  font-weight: 600;
+  color: var(--pond-deep);
+  background: linear-gradient(135deg, var(--frog-green) 0%, var(--lily-green) 100%);
+  border: none;
+  border-radius: 50px;
+  padding: 16px 40px;
+  cursor: pointer;
+  box-shadow:
+    0 6px 0 var(--frog-dark),
+    0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: all 0.15s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  min-height: 56px;
+  min-width: 180px;
+}
+
+@media (min-width: 768px) {
+  .start-button, .restart-button {
+    padding: 18px 50px;
+    min-height: 60px;
+    min-width: 200px;
+  }
+}
+
+.start-button:hover, .restart-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 0 var(--frog-dark),
+    0 14px 40px rgba(0, 0, 0, 0.5);
+}
+
+.start-button:active, .restart-button:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 2px 0 var(--frog-dark),
+    0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.controls-hint {
+  margin-top: 24px;
+  color: var(--cream);
+  opacity: 0.7;
+  font-size: clamp(12px, 3vw, 16px);
+  text-align: center;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .controls-hint {
+    margin-top: 30px;
+  }
+}
+
+.controls-hint kbd {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin: 0 2px;
+  font-family: 'Fredoka', sans-serif;
+}
+
+@media (min-width: 768px) {
+  .controls-hint kbd {
+    padding: 4px 12px;
+    margin: 0 4px;
+  }
+}
+
+.final-score {
+  font-family: 'Patrick Hand', cursive;
+  font-size: clamp(20px, 5vw, 32px);
+  color: var(--cream);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .final-score {
+    margin-bottom: 40px;
+  }
+}
+
+.final-score span {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  color: var(--sunset-orange);
+  font-size: clamp(28px, 7vw, 48px);
+}
+
+.frog-decoration {
+  font-size: clamp(48px, 12vw, 80px);
+  margin-bottom: 16px;
+  animation: frogBounce 1s ease-in-out infinite;
+}
+
+@media (min-width: 768px) {
+  .frog-decoration {
+    margin-bottom: 20px;
+  }
+}
+
+@keyframes frogBounce {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+.footer {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 12px;
+  color: rgba(245, 240, 225, 0.4);
+  z-index: 20;
+  pointer-events: auto;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    bottom: 16px;
+    font-size: 14px;
+  }
+}
+
+.footer a {
+  color: rgba(245, 240, 225, 0.5);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer a:hover {
+  color: var(--frog-green);
+}
+
+.mobile-controls {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 20px;
+  pointer-events: auto;
+}
+
+@media (min-width: 768px) {
+  .mobile-controls {
+    display: none;
+  }
+}
+
+.mobile-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%);
+  border: 3px solid var(--lily-green);
+  box-shadow:
+    0 4px 0 var(--lily-green),
+    0 6px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.mobile-btn:active {
+  transform: translateY(3px);
+  box-shadow:
+    0 1px 0 var(--lily-green),
+    0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-btn-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
